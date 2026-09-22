@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Data;
 using WebApplication1.Models;
 using WebApplication1.Services;
 
@@ -23,6 +24,7 @@ namespace WebApplication1.Controllers
             _machineService = machineService;//itfa l parameter(MachineService) god dependency li kreajna
         }
 
+       
         //private static readonly List<Machine> Machines = new()
         //{
         //    new Machine {id = 1, Name = "Server-01", Status = "Running"},
@@ -34,11 +36,11 @@ namespace WebApplication1.Controllers
 
         [HttpGet]
 
-        public IEnumerable<Machine> GetAll()
+        public async Task <List<Machine>> GetAllAsync()//controller awaits machine service, machine service awaits ef to handle sql
         {
 
            
-                return _machineService.GetAll();
+                return await _machineService.GetAllAsync();
 
             
         }
@@ -46,13 +48,15 @@ namespace WebApplication1.Controllers
 
         [HttpGet("{id}")]
 
-        public IActionResult RetrieveById(int id)
+        public async Task <IActionResult> RetrieveByIdAsync(int id)
         {
-            Machine? idMachine = _machineService.RetrieveById(id);
+            Task <Machine?> task = _machineService.RetrieveByIdAsync(id);
+            Machine? result = await task;
 
-            if (idMachine != null)
+            if (result != null)
             {
-                return Ok(idMachine);
+                
+                return Ok(result);
 
             }
 
@@ -67,10 +71,10 @@ namespace WebApplication1.Controllers
 
         [HttpPost]
 
-        public IActionResult Create(Machine machine)
+        public async Task<ActionResult> CreateAsync(Machine machine)
 
         {
-            _machineService.Create(machine);
+            await _machineService.CreateAsync(machine);
             return StatusCode(201, machine);
 
 
@@ -79,9 +83,10 @@ namespace WebApplication1.Controllers
 
         [HttpDelete("{id}")]
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            Machine? toDelete = _machineService.Delete(id);
+            Machine? toDelete = await _machineService.DeleteAsync(id);
+
             if (toDelete != null)
             {
                 return NoContent();
@@ -99,16 +104,19 @@ namespace WebApplication1.Controllers
         [HttpPut("{id}")]
 
 
-        public IActionResult Update(int id, Machine updatedMachine)
+        public async Task<IActionResult> Update(int id, Machine updatedMachine)
         {
-            Machine? toUpdate = _machineService.Update(id, updatedMachine);
+            //Task<Machine?> task = _machineService.UpdateAsync(id, updatedMachine);
+            //Machine? result = await task;
 
-            if (toUpdate == null)
+            Machine? result = await _machineService.UpdateAsync(id, updatedMachine);
+
+            if (result == null)
             {
                 return NotFound();
             }
 
-            return Ok(updatedMachine);
+            return Ok(result);
         }
     
     }

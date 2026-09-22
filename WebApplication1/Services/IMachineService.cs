@@ -5,15 +5,15 @@ namespace WebApplication1.Services
 {
     public interface IMachineService//qed niktbu 'kuntratt', kull class li jkolla xtaqsam mieghi, trid timplementja dawn il methods
     {
-        public IEnumerable<Machine> GetAll();
+        Task<List<Machine>> GetAllAsync();
 
-        public Machine? RetrieveById(int id);
+        public Task <Machine?> RetrieveByIdAsync(int id);
 
-        public Machine Create(Machine machine);
+        public Task<Machine> CreateAsync(Machine machine);
 
-        public Machine? Delete(int id);
+        public Task<Machine?> DeleteAsync(int id);
 
-        public Machine? Update(int id, Machine updatedMachine);
+        public Task<Machine?> UpdateAsync(int id, Machine updatedMachine);
 
 
 
