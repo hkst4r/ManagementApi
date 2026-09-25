@@ -50,7 +50,7 @@ namespace WebApplication1.Controllers
 
         public async Task <IActionResult> RetrieveByIdAsync(int id)
         {
-            Task <Machine?> task = _machineService.RetrieveByIdAsync(id);
+                Task <Machine?> task = _machineService.RetrieveByIdAsync(id);
             Machine? result = await task;
 
             if (result != null)
