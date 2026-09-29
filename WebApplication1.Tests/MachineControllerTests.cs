@@ -102,6 +102,12 @@ namespace WebApplication1.Tests
                             //Moq can also check whether a call actually happened.
 
         }
+
+
+
+        //sissa kull ma ttestjajna il controller, kreajna machineservice falz biex inkunu nistaw intuh xi haga, ma tajnihx il vera to isolate the testing to just controller, bdawn it tests kull ma 
+        //ridt inkun naf; jekk il controller jamilx xoghlu, mux jekk il machine service jikkomunika mad database kif suppost, jew jekk id database izomm kif suppost. kemm rajna lil controller meta
+        //nuzaw retreivebyidasync, itina machine meta suppost u null meta le
     }
 }
     

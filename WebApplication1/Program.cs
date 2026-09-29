@@ -15,7 +15,7 @@ builder.Services.AddScoped<IMachineService, MachineService>();//kull meta ha nsa
 
 builder.Services.AddDbContext<AppDbContext>(options =>//"id db context li ha nuzaw hu l appdbcontext li bnejna"
     options.UseSqlServer(//meta qed tikkrea appdbcontext, ghamlu li juza sql server
-        builder.Configuration.GetConnectionString("DefaultConnection")//liema sql server? idhol fil config u hu l connection string
+        builder.Configuration.GetConnectionString("DefaultConnection")//liema sql server? idhol f appsettings u hu l connection string
     ));
 //This also means that later something like MachineService can simply ask for:
 //MachineService(AppDbContext context)
