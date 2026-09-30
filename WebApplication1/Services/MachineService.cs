@@ -91,7 +91,7 @@ namespace WebApplication1.Services
                 result.Name = updatedMachine.Name;
                 result.Status = updatedMachine.Status;
                 await _dbContext.SaveChangesAsync();
-                return result;//actual value in list, updatedmachine kull mhu ha turi x dahal fl http request, mux xhemm fil lista.
+                return result;//actual value in database, updatedmachine kull mhu ha turi x dahal fl http request, mux xhemm fil database.
             }
 
           
