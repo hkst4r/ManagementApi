@@ -64,7 +64,7 @@ namespace WebApplication1.Tests
         public async Task RetrieveById_ReturnsOk_UsingMoq()
         {
             //arrange
-            Mock<IMachineService> mockService = new Mock<IMachineService>();//give me a fake object that follows the IMachineServiceContract we no longer need to create a whole class with methods to be implemented
+            Mock<IMachineService> mockService = new Mock<IMachineService>();//give me a fake object that follows the IMachineService contract we no longer need to create a whole class with methods to be implemented
 
             Machine machine = new Machine { id = 5, Name = "Test Machine", Status = "Running" };
 
