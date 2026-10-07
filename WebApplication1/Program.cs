@@ -47,3 +47,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { };//extending the auto-generated Program and making it accessible to the test project.
