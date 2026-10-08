@@ -182,7 +182,7 @@ namespace WebApplication1.Tests
             Machine? resultMachine = await response.Content.ReadFromJsonAsync<Machine>();
 
             Assert.NotNull(resultMachine);
-            Assert.Equal(100, resultMachine.id);
+            Assert.Equal(1, resultMachine.id);//1 ghax qed juza d dto allura l id bilfors hekk, ma nistawx natu kaz intuh id 100 ghax il post mghandix permission tbiddel ids
             Assert.Equal("magna", resultMachine.Name);
             Assert.Equal("Running", resultMachine.Status);
 
@@ -193,7 +193,7 @@ namespace WebApplication1.Tests
             {
                 AppDbContext context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                Machine? machineInDb = await context.Machines.FirstOrDefaultAsync(m => m.id == 100);
+                Machine? machineInDb = await context.Machines.FirstOrDefaultAsync(m => m.id == 1);//id bilfors 1
 
                 Assert.NotNull(machineInDb);
                 Assert.Equal("magna", machineInDb.Name);

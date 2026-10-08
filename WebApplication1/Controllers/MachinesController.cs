@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Data;
+using WebApplication1.DTOs;
 using WebApplication1.Models;
 using WebApplication1.Services;
 
@@ -71,11 +72,18 @@ namespace WebApplication1.Controllers
 
         [HttpPost]
 
-        public async Task<ActionResult> CreateAsync(Machine machine)
+        public async Task<ActionResult> CreateAsync(CreateMachineDto dto)
 
         {
-            await _machineService.CreateAsync(machine);
-            return StatusCode(201, machine);
+            Machine machine = new Machine
+            {
+                Name = dto.Name,
+                Status = dto.Status
+            };
+
+            Machine created = await _machineService.CreateAsync(machine);
+
+            return StatusCode(201, created);
 
 
         }
