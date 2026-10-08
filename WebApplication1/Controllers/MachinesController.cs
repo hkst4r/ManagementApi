@@ -12,20 +12,23 @@ namespace WebApplication1.Controllers
     [Route("api/[controller]")]
     public class MachinesController : ControllerBase
     {
+        private readonly ILogger<MachinesController> _logger;
 
         private readonly IMachineService _machineService;
         
         //nikkrejaw id dependency, qed nghidlu, isma ghandi bzonn oggett li jimxi mal kuntratt IMachineService,
         //jista jkun li jkun jaqwa li jimxi mieghu, 
 
-        public MachinesController(IMachineService machineService)
+        public MachinesController(IMachineService machineService, ILogger<MachinesController> logger)
          //f program.cs, diga ktibnilu, isma, meta f kwalunkwe post ha nsaqsik ghal xi haga IMachineService, irridek ittini MachineService.cs.
 
         {
             _machineService = machineService;//itfa l parameter(MachineService) god dependency li kreajna
+            _logger = logger;//di tal logger
+
         }
 
-       
+
         //private static readonly List<Machine> Machines = new()
         //{
         //    new Machine {id = 1, Name = "Server-01", Status = "Running"},
@@ -52,6 +55,7 @@ namespace WebApplication1.Controllers
         public async Task <IActionResult> RetrieveByIdAsync(int id)
         {
                 Task <Machine?> task = _machineService.RetrieveByIdAsync(id);
+            _logger.LogInformation("Retrieving machine with ID {MachineId}", id);
             Machine? result = await task;
 
             if (result != null)
@@ -63,9 +67,13 @@ namespace WebApplication1.Controllers
 
             else
             {
+                _logger.LogWarning("Machine {MachineId} was not found", id);//we are not handling exceptions, if something
+                //unexpected fails the exception-handling middleware deals with the HTTP error response, the logging system records the 
+                //failure internally
                 return NotFound();
-            }
 
+            }
+            
 
         }
 

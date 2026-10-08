@@ -4,6 +4,7 @@ using WebApplication1.Controllers;
 using WebApplication1.Models;
 using Moq;
 using WebApplication1.Services;
+using Microsoft.Extensions.Logging.Abstractions;
 
 
 
@@ -16,7 +17,8 @@ namespace WebApplication1.Tests
         {
             //arrange
             FakeMachineService fakeService = new FakeMachineService();
-            MachinesController controller = new MachinesController(fakeService);
+            MachinesController controller = new MachinesController(fakeService, NullLogger<MachinesController>.Instance);
+            //null logger, implementation of ILogger that discards log messages, mhux qed nitestjaw jekk jahdmux il logs
 
 
             //act
@@ -44,7 +46,7 @@ namespace WebApplication1.Tests
         public async Task RetrieveById_MachineNonExistent_ReturnsNotFound()
         {
             FakeMachineService fakeService = new FakeMachineService();
-            MachinesController controller = new MachinesController(fakeService);
+            MachinesController controller = new MachinesController(fakeService, NullLogger<MachinesController>.Instance);
 
 
             IActionResult result = await controller.RetrieveByIdAsync(2);
@@ -78,7 +80,7 @@ namespace WebApplication1.Tests
              return Task.FromResult<Machine?>(machine);}*/
 
 
-            MachinesController controller = new MachinesController(mockService.Object);//we cannot call MachinesController controller = new MachinesController(mockService); as mockservice is Mock<IMachineService>, the controller wants IMachineService
+            MachinesController controller = new MachinesController(mockService.Object, NullLogger<MachinesController>.Instance);//we cannot call MachinesController controller = new MachinesController(mockService); as mockservice is Mock<IMachineService>, the controller wants IMachineService
             //act
 
             IActionResult result = await controller.RetrieveByIdAsync(5);

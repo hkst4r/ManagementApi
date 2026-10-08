@@ -30,7 +30,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>//"id db context li ha nuz
 
 
 
-
+builder.Services.AddProblemDetails();//exception handling; addproblemdetails() registers services that can generate standardized HTTP error responses.
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,6 +43,12 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseExceptionHandler();//adds middleware to the HTTP request pipeline that can catch unhandled exceptions thrown by components later in the pipeline.
+
+                          //exception handling: jekk ezempju s service jibat unexpected exception, l exception handling
+                          //middleware jaqbad l exception bl informazzjoni li rridu, (exception jaf ikun fiha informazzjoni sensittiva, ez. database details etc)
+                          //allura niddeciedu x ha nuru mil error depending if its the client or developer, client kull mghandu jkun jaf li falliet xi haga, developer
+                          //irid ikun jaf x'falla u fejn biex jirranga.
 
 app.MapControllers();
 
