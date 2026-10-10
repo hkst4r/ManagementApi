@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>SignalR Test</title>
+</head>
+<body>
+
+    <h2>Machine Status Updates</h2>
+
+    <input id="machineId" type="number" placeholder="Machine ID">
+    <input id="status" type="text" placeholder="Status">
+
+    <button onclick="sendUpdate()">Send Update</button>
+
+    <h3>Received Updates:</h3>
+    <ul id="updates"></ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
+
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/machineHub")
+            .build();//This creates a SignalR client connection configured to use your Hub endpoint.
+
+        connection.on("MachineStatusChanged", (id, status) => {
+            const item = document.createElement("li");//This tells the client: Whenever the server sends an event called MachineStatusChanged, execute this function.
+
+            item.textContent = `Machine ${id}: ${status}`;
+
+            document.getElementById("updates").appendChild(item);
+        });
+
+        connection.start()
+            .then(() => console.log("Connected to SignalR"))
+            .catch(err => console.error(err));
+
+        async function sendUpdate() {
+            const id = Number(document.getElementById("machineId").value);
+            const status = document.getElementById("status").value;
+
+            await connection.invoke("SendMachineUpdate", id, status);//This calls the public method in the C# Hub: mur fis c# hub, the method in the hub then broadcasts the update.
+        }
+    </script>
+
+</body>
+</html>

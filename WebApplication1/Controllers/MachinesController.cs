@@ -138,3 +138,31 @@ namespace WebApplication1.Controllers
     
     }
 }
+
+
+
+//Powershell example
+/*
+PS C:\Users\rysten> $machine = Invoke-RestMethod `
+>>     -Uri "https://localhost:7293/api/machines/5" `
+>>     -Method Get
+PS C:\Users\rysten> $body = @{
+>>     name = "PowerShell Machine"
+>>     status = "Running"
+>> } | ConvertTo-Json
+PS C:\Users\rysten> $body
+{
+    "name":  "PowerShell Machine",
+    "status":  "Running"
+}
+PS C:\Users\rysten> $response = Invoke-RestMethod `
+>>     -Uri "https://localhost:7293/api/machines" `
+>>     -Method Post `
+>>     -Body $body `
+>>     -ContentType "application/json"
+PS C:\Users\rysten> $response
+
+id name               status
+-- ----               ------
+ 0 PowerShell Machine Running
+*/

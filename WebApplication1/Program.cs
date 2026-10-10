@@ -1,12 +1,14 @@
-using WebApplication1.Services;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
+using WebApplication1.Hubs;
+using WebApplication1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -33,6 +35,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>//"id db context li ha nuz
 builder.Services.AddProblemDetails();//exception handling; addproblemdetails() registers services that can generate standardized HTTP error responses.
 var app = builder.Build();
 
+app.MapHub<MachineHub>("/machineHub");//the application now has 2 endpoints, REST Controller and SignalR Hub
+
+///machineHub is not a normal REST endpoint. You don't test it by opening that URL in Swagger.
+//SignalR clients use a specific protocol to establish a connection and exchange message
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -49,7 +56,7 @@ app.UseExceptionHandler();//adds middleware to the HTTP request pipeline that ca
                           //middleware jaqbad l exception bl informazzjoni li rridu, (exception jaf ikun fiha informazzjoni sensittiva, ez. database details etc)
                           //allura niddeciedu x ha nuru mil error depending if its the client or developer, client kull mghandu jkun jaf li falliet xi haga, developer
                           //irid ikun jaf x'falla u fejn biex jirranga.
-
+app.UseStaticFiles();//llows ASP.NET Core to serve files from wwwroot so we can test signalr
 app.MapControllers();
 
 app.Run();

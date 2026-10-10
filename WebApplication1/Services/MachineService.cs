@@ -36,7 +36,7 @@ namespace WebApplication1.Services
 
         public async Task<Machine> CreateAsync(Machine machine)
         {
-             //tell EF what changed
+            _dbContext.Machines.Add(machine); //tell EF what changed
             await _dbContext.SaveChangesAsync();//actually persist the changes to the database, start sql save, await*, save finishes, continue and return machine
             return machine;
         }
